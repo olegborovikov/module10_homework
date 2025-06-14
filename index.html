@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=350, initial-scale=1.0" />
+    <link rel="stylesheet" href="style.css" />
+    <title>Мини-чат</title>
+  </head>
+  <body>
+    <!-- Экран 1: старт -->
+    <div id="start-screen">
+      <h2>👋 Привет! Нажми, чтобы начать</h2>
+      <button id="startBtn">Начать чат</button>
+    </div>
+
+    <!-- Экран 2: чат -->
+    <div id="chat-screen" class="chat-app hidden">
+      <div class="chat-header">
+        <h1>💬 Диалог самим собой...</h1>
+        <button class="flaps-button" id="flaps"></button>
+      </div>
+
+      <div class="chat-body">
+        <div class="chat-main" id="chatMain"></div>
+        <div class="chat-footer">
+          <button id="geolocation" class="button-footer"></button>
+          <input
+            id="messageInput"
+            type="text"
+            name="message"
+            placeholder="Введите сообщение..."
+          />
+          <button id="send" class="send-footer"></button>
+        </div>
+      </div>
+    </div>
+
+    <script src="index.js"></script>
+  </body>
+</html>
