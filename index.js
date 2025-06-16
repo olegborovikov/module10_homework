@@ -1,16 +1,15 @@
 const startBtn = document.getElementById('startBtn')
 const startScreen = document.getElementById('start-screen')
-const flaps = document.getElementById('flaps')
-document.getElementById('startBtn').addEventListener('click', () => {
-  document.getElementById('start-screen').style.display = 'none'
-  document.getElementById('chat-screen').classList.remove('hidden')
+const chatScreen = document.getElementById('chat-screen')
+
+startBtn.addEventListener('click', () => {
+  startScreen.style.display = 'none'
+  chatScreen.classList.remove('hidden')
 })
 
 flaps.addEventListener('click', () => {
   location.reload()
 })
-
-const socket = new WebSocket('wss://ws.ifelse.io')
 
 const send = document.getElementById('send')
 const messageInput = document.getElementById('messageInput')
@@ -35,7 +34,14 @@ send.addEventListener('click', () => {
   if (text === '') return
 
   createMessage(text, 'user')
-  socket.send(text)
+  if (socket && socket.readyState === WebSocket.OPEN) {
+    socket.send(text)
+  } else {
+    createMessage(
+      '❗ Невозможно отправить: нет подключения к серверу.',
+      'server'
+    )
+  }
   messageInput.value = ''
 })
 
@@ -45,9 +51,29 @@ messageInput.addEventListener('keydown', (event) => {
   }
 })
 
-socket.addEventListener('message', (event) => {
-  createMessage(event.data, 'server')
-})
+let socket
+function connectWebSocket() {
+  socket = new WebSocket('wss://ws.ifelse.io')
+  // socket = new WebSocket('ws://ws.ifelse404')
+
+  socket.addEventListener('open', () => {
+    createMessage('✅ Подключение установлено!', 'server')
+  })
+
+  socket.addEventListener('message', (event) => {
+    createMessage(event.data, 'server')
+  })
+
+  socket.addEventListener('error', () => {
+    createMessage('❌ Ошибка соединения с сервером.', 'server')
+  })
+
+  socket.addEventListener('close', () => {
+    createMessage('🔄 Соединение потеряно. Переподключаюсь...', 'server')
+    setTimeout(connectWebSocket, 3000)
+  })
+}
+connectWebSocket()
 const geoBtn = document.getElementById('geolocation')
 
 const phrases = [

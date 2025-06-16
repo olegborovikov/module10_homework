@@ -1,0 +1,25 @@
+body {
+  background-color: rgb(228, 328, 240);
+}
+button {
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 250px;
+  height: 35px;
+  background-color: green;
+  border-radius: 5px;
+}
+
+.text {
+  text-align: left;
+  color: aliceblue;
+  font-size: 15px;
+}
+
+.svg {
+  display: flex;
+  align-items: center;
+  color: aliceblue;
+}
